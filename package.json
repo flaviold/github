@@ -1,0 +1,20 @@
+{
+  "name": "github",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flaviold/github.git"
+  },
+  "keywords": [],
+  "author": "Flavio Duarte",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/flaviold/github/issues"
+  },
+  "homepage": "https://github.com/flaviold/github#readme"
+}
