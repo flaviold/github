@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/flaviold/github/issues"
   },
-  "homepage": "https://github.com/flaviold/github#readme"
+  "homepage": "https://github.com/flaviold/github#readme",
+  "devDependencies": {
+    "git-commit-msg-linter": "^3.1.0"
+  }
 }
