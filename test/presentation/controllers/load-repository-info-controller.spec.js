@@ -41,21 +41,21 @@ const makeSut = () => {
 describe('Load Repository Info Controller', () => {
   test('Should return 400 when author is not provided', async () => {
     const { sut } = makeSut();
-    const httpRequest = { body: {} };
+    const httpRequest = { query: {} };
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse).toEqual(badRequest(new MissingParamError('author')));
   });
 
   test('Should return 400 when repository is not provided', async () => {
     const { sut } = makeSut();
-    const httpRequest = { body: { author: 'author' } };
+    const httpRequest = { query: { author: 'author' } };
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse).toEqual(badRequest(new MissingParamError('repository')));
   });
 
   test('Should Call LoadRepositoryInfo with correct values', async () => {
     const { sut, loadRepositoryInfoUseCaseSpy } = makeSut();
-    const httpRequest = { body: { author: 'author', repository: 'repository' } };
+    const httpRequest = { query: { author: 'author', repository: 'repository' } };
     await sut.handle(httpRequest);
     expect(loadRepositoryInfoUseCaseSpy.author).toBe('author');
     expect(loadRepositoryInfoUseCaseSpy.repository).toBe('repository');
@@ -64,14 +64,14 @@ describe('Load Repository Info Controller', () => {
   test('Should return 500 if LoadRepositoryInfo throws', async () => {
     const { sut, loadRepositoryInfoUseCaseSpy } = makeSut();
     jest.spyOn(loadRepositoryInfoUseCaseSpy, 'load').mockImplementationOnce(() => { throw new Error(); });
-    const httpRequest = { body: { author: 'author', repository: 'repository' } };
+    const httpRequest = { query: { author: 'author', repository: 'repository' } };
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse).toEqual(serverError());
   });
 
   test('Should return 200 on success', async () => {
     const { sut } = makeSut();
-    const httpRequest = { body: { author: 'author', repository: 'repository' } };
+    const httpRequest = { query: { author: 'author', repository: 'repository' } };
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse).toEqual(ok(makeInfo()));
   });

@@ -8,7 +8,7 @@ module.exports = class LoadRepositoryInfoController {
 
   async handle(httpRequest) {
     try {
-      const { author, repository } = httpRequest.body;
+      const { author, repository } = httpRequest.query;
 
       if (!author) return badRequest(new MissingParamError('author'));
       if (!repository) return badRequest(new MissingParamError('repository'));
