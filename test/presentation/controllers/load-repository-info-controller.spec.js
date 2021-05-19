@@ -10,7 +10,7 @@ const makeInfo = () => [{
 }];
 
 const makeLoadRepositoryInfo = () => {
-  class LoadRepositoryInfoSpy {
+  class LoadRepositoryInfoUseCaseSpy {
     constructor() {
       this.result = makeInfo();
     }
@@ -23,18 +23,18 @@ const makeLoadRepositoryInfo = () => {
     }
   }
 
-  return new LoadRepositoryInfoSpy();
+  return new LoadRepositoryInfoUseCaseSpy();
 };
 
 const makeSut = () => {
-  const loadRepositoryInfoSpy = makeLoadRepositoryInfo();
+  const loadRepositoryInfoUseCaseSpy = makeLoadRepositoryInfo();
   const sut = new LoadRepositoryInfoController({
-    loadRepositoryInfo: loadRepositoryInfoSpy,
+    loadRepositoryInfoUseCase: loadRepositoryInfoUseCaseSpy,
   });
 
   return {
     sut,
-    loadRepositoryInfoSpy,
+    loadRepositoryInfoUseCaseSpy,
   };
 };
 
@@ -54,16 +54,16 @@ describe('Load Repository Info Controller', () => {
   });
 
   test('Should Call LoadRepositoryInfo with correct values', async () => {
-    const { sut, loadRepositoryInfoSpy } = makeSut();
+    const { sut, loadRepositoryInfoUseCaseSpy } = makeSut();
     const httpRequest = { body: { author: 'author', repository: 'repository' } };
     await sut.handle(httpRequest);
-    expect(loadRepositoryInfoSpy.author).toBe('author');
-    expect(loadRepositoryInfoSpy.repository).toBe('repository');
+    expect(loadRepositoryInfoUseCaseSpy.author).toBe('author');
+    expect(loadRepositoryInfoUseCaseSpy.repository).toBe('repository');
   });
 
   test('Should return 500 if LoadRepositoryInfo throws', async () => {
-    const { sut, loadRepositoryInfoSpy } = makeSut();
-    jest.spyOn(loadRepositoryInfoSpy, 'load').mockImplementationOnce(() => { throw new Error(); });
+    const { sut, loadRepositoryInfoUseCaseSpy } = makeSut();
+    jest.spyOn(loadRepositoryInfoUseCaseSpy, 'load').mockImplementationOnce(() => { throw new Error(); });
     const httpRequest = { body: { author: 'author', repository: 'repository' } };
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse).toEqual(serverError());
