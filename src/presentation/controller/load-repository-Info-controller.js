@@ -16,7 +16,8 @@ module.exports = class LoadRepositoryInfoController {
       const info = await this.loadRepositoryInfoUseCase.load(author, repository);
 
       return ok(info);
-    } catch {
+    } catch (e) {
+      console.error(e);
       return serverError();
     }
   }
