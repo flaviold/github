@@ -1,5 +1,5 @@
 const LoadRepositoryInfoController = require('../../../src/presentation/controller/load-repository-Info-controller');
-const { badRequest, serverError } = require('../../../src/presentation/helpers/http-helpers');
+const { ok, badRequest, serverError } = require('../../../src/presentation/helpers/http-helpers');
 const MissingParamError = require('../../../src/presentation/errors/missing-param-error');
 
 const makeInfo = () => [{
@@ -18,6 +18,8 @@ const makeLoadRepositoryInfo = () => {
     async load(author, repository) {
       this.author = author;
       this.repository = repository;
+
+      return this.result;
     }
   }
 
@@ -65,5 +67,12 @@ describe('Load Repository Info Controller', () => {
     const httpRequest = { body: { author: 'author', repository: 'repository' } };
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse).toEqual(serverError());
+  });
+
+  test('Should return 200 on success', async () => {
+    const { sut } = makeSut();
+    const httpRequest = { body: { author: 'author', repository: 'repository' } };
+    const httpResponse = await sut.handle(httpRequest);
+    expect(httpResponse).toEqual(ok(makeInfo()));
   });
 });
