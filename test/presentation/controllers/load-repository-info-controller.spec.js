@@ -1,5 +1,5 @@
 const LoadRepositoryInfoController = require('../../../src/presentation/controller/load-repository-Info-controller');
-const { badRequest } = require('../../../src/presentation/helpers/http-helpers');
+const { badRequest, serverError } = require('../../../src/presentation/helpers/http-helpers');
 const MissingParamError = require('../../../src/presentation/errors/missing-param-error');
 
 const makeInfo = () => [{
@@ -57,5 +57,13 @@ describe('Load Repository Info Controller', () => {
     await sut.handle(httpRequest);
     expect(loadRepositoryInfoSpy.author).toBe('author');
     expect(loadRepositoryInfoSpy.repository).toBe('repository');
+  });
+
+  test('Should return 500 if LoadRepositoryInfo throws', async () => {
+    const { sut, loadRepositoryInfoSpy } = makeSut();
+    jest.spyOn(loadRepositoryInfoSpy, 'load').mockImplementationOnce(() => { throw new Error(); });
+    const httpRequest = { body: { author: 'author', repository: 'repository' } };
+    const httpResponse = await sut.handle(httpRequest);
+    expect(httpResponse).toEqual(serverError());
   });
 });
