@@ -17,4 +17,11 @@ describe('Load Repository Info Controller', () => {
     const httpResponse = await sut.handle(httpRequest);
     expect(httpResponse).toEqual(badRequest(new MissingParamError('author')));
   });
+
+  test('Should return 400 when repository is not provided', async () => {
+    const { sut } = makeSut();
+    const httpRequest = { body: { author: 'author' } };
+    const httpResponse = await sut.handle(httpRequest);
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('repository')));
+  });
 });
