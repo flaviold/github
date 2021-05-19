@@ -1,4 +1,4 @@
-const { badRequest, serverError } = require('../helpers/http-helpers');
+const { badRequest, serverError, ok } = require('../helpers/http-helpers');
 const MissingParamError = require('../errors/missing-param-error');
 
 module.exports = class LoadRepositoryInfoController {
@@ -13,9 +13,9 @@ module.exports = class LoadRepositoryInfoController {
       if (!author) return badRequest(new MissingParamError('author'));
       if (!repository) return badRequest(new MissingParamError('repository'));
 
-      await this.loadRepositoryInfo.load(author, repository);
+      const info = await this.loadRepositoryInfo.load(author, repository);
 
-      return null;
+      return ok(info);
     } catch {
       return serverError();
     }
