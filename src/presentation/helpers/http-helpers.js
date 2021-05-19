@@ -3,6 +3,11 @@ const badRequest = (error) => ({
   body: error,
 });
 
+const serverError = () => ({
+  statusCode: 500,
+});
+
 module.exports = {
   badRequest,
+  serverError,
 };
