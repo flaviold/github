@@ -5,7 +5,7 @@ const ok = (data) => ({
 
 const badRequest = (error) => ({
   statusCode: 400,
-  body: error,
+  body: error.message,
 });
 
 const serverError = () => ({
